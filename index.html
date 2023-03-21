@@ -45,8 +45,18 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="news/index.html">Changelog</a>
+</li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/fdepaolis/xtranat/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -58,11 +68,41 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-Network metrics based on random walks. There are two network metrics, RWC (random walk centrality) and CBET (counting betweenness). Also available are the normalized versions of those metrics. These measures of centrality and betweeness are particularly useful for the analysis of very dense weighted networks which includes loops. Traditional measures do not work as well for those network characteritics. The main reference is DePaolis at al (2022) &lt;<a href="https://doi.org/10.1007/s41109-022-00519-2" class="external-link">doi:10.1007/s41109-022-00519-2</a>&gt; .
+<div class="section level1">
+<div class="page-header"><h1 id="xtranat">xtranat<a class="anchor" aria-label="anchor" href="#xtranat"></a>
+</h1></div>
+<!-- badges: start -->
+
+<p>The functions in the ‘xtranat’ package are based on random walks. They compute <em>Counting Betweenness</em> and <em>Random Walk Centrality</em>. It also computes the intermediate measure <em>Mean First Pass Time</em>.</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>You can install the development version of xtranat from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"fdepaolis/xtranat"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h2>
+<p>This is a basic example which shows you how to solve a common problem:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/fdepaolis/xtranat" class="external-link">xtranat</a></span><span class="op">)</span></span>
+<span><span class="co">## basic example code</span></span></code></pre></div>
+</div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div class="license">
+    <div class="links">
+<h2 data-toc-skip>Links</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/fdepaolis/xtranat/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/fdepaolis/xtranat/issues" class="external-link">Report a bug</a></li>
+</ul>
+</div>
+
+<div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a></li>
@@ -84,7 +124,13 @@ Network metrics based on random walks. There are two network metrics, RWC (rando
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://CRAN.R-project.org/package=xtranat" class="external-link"><img src="https://www.r-pkg.org/badges/version/xtranat" alt="CRAN status"></a></li>
+<li><a href="https://github.com/fdepaolis/xtranat/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/r-lib/usethis/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+</ul>
+</div>
 
   </div>
 </div>

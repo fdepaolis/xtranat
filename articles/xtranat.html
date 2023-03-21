@@ -45,8 +45,18 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
-<ul class="nav navbar-nav navbar-right"></ul>
+<ul class="nav navbar-nav navbar-right">
+<li>
+  <a href="https://github.com/fdepaolis/xtranat/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
 </div>
 <!--/.nav-collapse -->
   </div>
@@ -56,269 +66,21 @@
 
       
 
-      </header><script src="xtranat_files/kePrint-0.0.1/kePrint.js"></script><link href="xtranat_files/lightable-0.0.1/lightable.css" rel="stylesheet">
-<div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>xtranat</h1>
-                        <h4 data-toc-skip class="author">Fernando
-DePaolis</h4>
             
-            <h4 data-toc-skip class="date">2023-03-21</h4>
       
-      
+      <small class="dont-index">Source: <a href="https://github.com/fdepaolis/xtranat/blob/HEAD/vignettes/xtranat.Rmd" class="external-link"><code>vignettes/xtranat.Rmd</code></a></small>
       <div class="hidden name"><code>xtranat.Rmd</code></div>
 
     </div>
 
     
     
-<p>The functions in the ‘xtranat’ package are based on random walks.
-They compute <em>Counting Betweenness</em> and <em>Random Walk
-Centrality</em>. It also computes the intermediate measure <em>Mean
-First Pass Time</em>.</p>
-<div class="section level4">
-<h4 id="mean-first-pass-time">Mean First Pass Time<a class="anchor" aria-label="anchor" href="#mean-first-pass-time"></a>
-</h4>
-<p>In metrics based on random walks, MFPT (mean first pass time) from
-node <em>i</em> to node <em>j</em> is the expected number of steps it
-takes for the process to reach node <em>j</em> from node <em>i</em> for
-the first time.</p>
-</div>
-<div class="section level4">
-<h4 id="random-walk-centrality">Random Walk Centrality<a class="anchor" aria-label="anchor" href="#random-walk-centrality"></a>
-</h4>
-<p>RWC (random walk centrality) of a node is the node’s inverse of MFPT
-(mean first pass time).</p>
-</div>
-<div class="section level4">
-<h4 id="counting-betweenness">Counting Betweenness<a class="anchor" aria-label="anchor" href="#counting-betweenness"></a>
-</h4>
-<p>CB (counting betweenness) is a measure of a node’s involvement in the
-paths connecting other nodes. The more paths a node participates in, the
-more relevant as a connector (or conduit) in the network.</p>
-</div>
-<div class="section level4">
-<h4 id="an-example-of-metrics-from-igraph-and-xtranat-using-normalized-values">An Example of Metrics from igraph and xtranat (using normalized
-values)<a class="anchor" aria-label="anchor" href="#an-example-of-metrics-from-igraph-and-xtranat-using-normalized-values"></a>
-</h4>
-<div class="section level5">
-<h5 id="network-graph">Network graph<a class="anchor" aria-label="anchor" href="#network-graph"></a>
-</h5>
-<p>Applied to a random network with ten nodes and four randomly located
-loops. This is a dense, weigthed network.</p>
-<p><img src="xtranat_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
-</div>
-<div class="section level5">
-<h5 id="table-with-values-of-network-metrics-from-igraph-and-xtranat">Table with values of network metrics from igraph and xtranat<a class="anchor" aria-label="anchor" href="#table-with-values-of-network-metrics-from-igraph-and-xtranat"></a>
-</h5>
-<table class="table table table-striped" style="width: auto !important; margin-left: auto; margin-right: auto;">
-<thead><tr>
-<th style="text-align:left;">
-</th>
-<th style="text-align:right;">
-Eigenvector <br> Centrality<br>(igraph)
-</th>
-<th style="text-align:right;">
-Random Walk<br> Centrality<br>(xtranat)
-</th>
-<th style="text-align:right;">
-Closeness<br> Betwenness <br>(igraph)
-</th>
-<th style="text-align:right;">
-Counting <br> Betwenness <br> (xtranat)
-</th>
-</tr></thead>
-<tbody>
-<tr>
-<td style="text-align:left;">
-1
-</td>
-<td style="text-align:right;">
-0.8185
-</td>
-<td style="text-align:right;">
-0.4629
-</td>
-<td style="text-align:right;">
-0.0606
-</td>
-<td style="text-align:right;">
-0.8623
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-2
-</td>
-<td style="text-align:right;">
-0.3441
-</td>
-<td style="text-align:right;">
-0.1413
-</td>
-<td style="text-align:right;">
-0.3151
-</td>
-<td style="text-align:right;">
-0.1873
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-3
-</td>
-<td style="text-align:right;">
-0.2472
-</td>
-<td style="text-align:right;">
-0.1418
-</td>
-<td style="text-align:right;">
-0.7739
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-4
-</td>
-<td style="text-align:right;">
-1.0000
-</td>
-<td style="text-align:right;">
-1.0000
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:right;">
-0.9871
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-5
-</td>
-<td style="text-align:right;">
-0.5311
-</td>
-<td style="text-align:right;">
-0.6089
-</td>
-<td style="text-align:right;">
-1.0000
-</td>
-<td style="text-align:right;">
-0.9025
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-6
-</td>
-<td style="text-align:right;">
-0.3813
-</td>
-<td style="text-align:right;">
-0.2401
-</td>
-<td style="text-align:right;">
-0.2519
-</td>
-<td style="text-align:right;">
-0.1593
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-7
-</td>
-<td style="text-align:right;">
-0.1311
-</td>
-<td style="text-align:right;">
-0.2349
-</td>
-<td style="text-align:right;">
-0.8319
-</td>
-<td style="text-align:right;">
-0.2268
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-8
-</td>
-<td style="text-align:right;">
-0.8918
-</td>
-<td style="text-align:right;">
-0.4785
-</td>
-<td style="text-align:right;">
-0.7703
-</td>
-<td style="text-align:right;">
-1.0000
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-9
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:right;">
-0.0000
-</td>
-<td style="text-align:right;">
-0.6330
-</td>
-<td style="text-align:right;">
-0.0368
-</td>
-</tr>
-<tr>
-<td style="text-align:left;">
-10
-</td>
-<td style="text-align:right;">
-0.3791
-</td>
-<td style="text-align:right;">
-0.0706
-</td>
-<td style="text-align:right;">
-0.0858
-</td>
-<td style="text-align:right;">
-0.3974
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<div class="section level4">
-<h4 id="closing-comments">Closing Comments<a class="anchor" aria-label="anchor" href="#closing-comments"></a>
-</h4>
-<p>We developed these metrics in DePaolis, F., Murphy, P. &amp; De
-Paolis Kaluza, M.C. “Identifying key sectors in the regional economy: a
-network analysis approach using input–output data,” <em>Appl Netw
-Sci</em> 7, 86 (2022).<a href="https://doi.org/10.1007/s41109-022-00519-2" class="external-link">Link</a>. Some of the
-theoretical foundations are in Blöchl F, Theis FJ, Vega-Redondo F, and
-Fisher E. “Vertex Centrality in Input-Output Networks Reveal the
-Structure of Modern Economies,” <em>Physical Review E</em> 83(4):046127,
-2011.<a href="https://journals.aps.org/pre/abstract/10.1103/PhysRevE.83.046127" class="external-link">Link</a></p>
-<div style="text-align: right;" markdown="1">
-<p><a href="#header">back to top</a></p>
-</div>
-</div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/fdepaolis/xtranat" class="external-link">xtranat</a></span><span class="op">)</span></span></code></pre></div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
