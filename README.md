@@ -7,7 +7,7 @@
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/xtranat)](https://CRAN.R-project.org/package=xtranat)
-[![R-CMD-check](https://github.com/fdepaolis/xtranat/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/fdepaolis/xtranat/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/r-lib/usethis/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/fdepaolis/xtranat/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The functions in the ‘xtranat’ package are based on random walks. They
