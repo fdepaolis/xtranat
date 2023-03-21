@@ -4,6 +4,8 @@
 # xtranat
 
 <!-- badges: start -->
+
+[![R-CMD-check](https://github.com/fdepaolis/xtranat/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/fdepaolis/xtranat/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The functions in the ‘xtranat’ package are based on random walks. They
