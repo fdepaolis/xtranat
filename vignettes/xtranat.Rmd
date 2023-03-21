@@ -1,0 +1,228 @@
+---
+title: "xtranat"
+author: "Fernando DePaolis"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+     fig_height: 6
+     fig_width: 6
+
+vignette: >
+  %\VignetteIndexEntry{xtranat}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+The functions in the 'xtranat' package are based on random walks. They compute *Counting Betweenness* and *Random Walk Centrality*. It also computes the intermediate measure *Mean First Pass Time*.
+
+
+#### Mean First Pass Time
+In metrics based on random walks, MFPT (mean first pass time) from node *i* to node *j* is the expected number of steps it takes for the process to reach node *j* from node *i* for the first time.
+
+```{r echo = FALSE, results = 'asis', message = FALSE, warning=FALSE}
+mfpt <- function(A) {
+  ## Reads the A-matrix; check if A is a matrix and if it's square. Complete with zeros if necessary
+        A <- as.matrix(A) 
+        n = nrow(A) 
+        rrss = rowSums(A)
+        for (i in 1:n) {
+                if (rrss[i] != 0) {
+                        rrss[i] = 1/rrss[i]
+                }
+        }
+        AA = diag(n) - diag(rrss) %*% A  #compute transition matrix. Is this "T" in 'mediative effects' Garcia-Muniz 2008?
+        H = matrix(0, n, n)
+        I = solve(AA[-1,-1])            ## inverse of AA without 1st column & 1st row
+        ones = matrix(1, n-1, 1)        ## vector of "1"s of length 'n-1'
+        for (i in 1:n) {
+                H[-i,i] = I %*% ones    ## matrix product; otherwise, non-conformable
+                if (i < n){
+                        u = AA[-(i+1),i] - AA[-i, (i+1)]
+                        I = I - ((I*u) * I[i,]) / (1 + (I[i,] * u))
+                        v = AA[i, -(i+1)] - AA[(i+1), -i]
+                        I = I - ((I[,i] * (v * I)) / 1 + v * I[,i])
+                        if (AA[(i+1),(i+1)]!=1){
+                                I = solve(AA[-(i+1),-(i+1)], tol = 1e-29)
+                        }
+                        if (any(is.infinite(I))) {        ## i.e. Sherman-Morrison didn't work. When would I(i,j)=infinity
+                                I[is.infinite(I)] <- 0    ## what are the implications of turning infinity to zero?
+                                #       I = solve(AA[-(i+1),-(i+1)])   ## Identical to the condition not met, so we removed it
+                        }
+                }
+        }
+#        H <<- H    # Forces to write "H" to the global environment
+        return(H)
+}
+
+```
+
+
+
+#### Random Walk Centrality
+RWC (random walk centrality) of a node is the node's inverse of MFPT (mean first pass time).
+
+```{r echo = FALSE, results = 'asis', message = FALSE, warning=FALSE}
+rwc_norm <- function(A) {
+  ## Reads the A-matrix; check if A is a matrix and if it's square. Complete with zeros if necessary
+  ## If any row/column is all zeros, remove it; records their row/column number
+        nn = nrow(A) 
+        cen = matrix(0,nn,1)
+        m <- mfpt(A)   # H from mfpt{}
+        for (j in 1:nn) {
+                if (all(A[j,] == (c(rep(1,(j-1)),0,rep(1,(nn-j)))))) {  # This compares each row of H with a rows made of 1s and a zero on the diagonal
+                        cen[j] = 0   # If TRUE (i.e. row of H == 1s) that row of CEN == zero
+                } else {
+                        cen[j] = nn / sum(m[,j])
+                }
+        }
+        cen <- (cen - min(cen)) / (max(cen) - min(cen))  # This is a normalized version, values between "0" and "1"
+        return(cen)
+}
+
+```
+
+
+#### Counting Betweenness
+CB (counting betweenness) is a measure of a node's involvement in the paths connecting other nodes. The more paths a node participates in, the more relevant as a connector (or conduit) in the network.
+
+```{r echo = FALSE, results = 'asis', message = FALSE, warning=FALSE}
+cbet_norm <- function(A) {
+        ## Reads the A-matrix; removes row/column with all zeros; records their row/column number
+        A <- as.matrix(A)
+        m = nrow(A)
+        rrss = rowSums(A)
+        retain.vector <- vector(mode="numeric", length=0)
+        if (0.0 %in% rrss){    ## Checks if there is a row with all zeros
+          retain.vector <- row(as.matrix(rrss))[which(as.matrix(rrss) == 0)]
+          AA1 = A[-retain.vector,-retain.vector]  ## this is the A-matrix without row/columns of zeros
+        } else {
+          AA1 = A
+        }
+        
+        d = diag(rowSums(AA1))
+        n = nrow(AA1)
+        ones = matrix(1, n, 1) ## this is a vector of "n" rows by 1 col of "1"
+        re = matrix(0, n, 1 )  ## this is a vector of "n" rows by 1 col of "0"
+        for (p in 1:n){
+                atemp = AA1[-p,-p]
+                T = solve(d[-p,-p] - atemp, tol = 1e-29)
+                for (s in 1:n){
+                        if (s != p){
+                                if (s < p){
+                                    indx = s
+                                } else if (s > p) {
+                                    indx = s - 1
+                                }
+                        N = as.matrix(diag(T[indx,])) %*% atemp
+                        I = abs(N + t(N)) / 2
+                        re[-p,1] = re[-p,1] + 0.5*((t(colSums(I))) + rowSums(I))
+                        }
+                }
+        }
+        re2 = (re + 2 * (n-1) * ones) / ((n) * (n-1))
+
+        res = matrix(0, m, 1)
+        # restore one or more rows/columns of zeros to their original positions
+        if (length(retain.vector)!=0) {
+          res[-retain.vector] <- re2
+        } else
+          res <- re2
+        
+        res <- (res - min(res)) / (max(res) - min(res)) # This is a normalized version, values between "0" and "1"  
+        return(res)
+}
+
+```
+
+
+
+#### An Example of Metrics from igraph and xtranat (using normalized values)
+##### Network graph 
+Applied to a random network with ten nodes and four randomly located loops. This is a dense, weigthed network.
+
+```{r echo = FALSE, results = 'asis', message = FALSE, warning=FALSE}
+# Create random square matrix
+#create matrix of 10 random values between 1 and 20
+#set.seed(16)
+random_matrix <- matrix(runif(n=100, min=0, max=1), nrow=10)
+
+# set diagonal to zeros (most metrics don't handle loops)
+# diag(random_matrix) <- 0
+
+# turn some diagonal values to zero
+Vec <- c(rep(0, 6), rep(1, 4)) # vector with the proportion of zeros to remove loops
+new.diag <- (diag(random_matrix)*sample(Vec))
+diag(random_matrix) <- new.diag # replaces original diagonal
+
+```
+
+
+```{r echo = FALSE, message = FALSE, warning=FALSE}
+# Plots the network
+library(igraph)
+ran_graph <- graph_from_adjacency_matrix(random_matrix, weighted=TRUE)
+
+plot(ran_graph, layout=layout_nicely, vertex.color="lightblue",
+     edge.arrow.size=0.5)
+
+```
+
+##### Table with values of network metrics from igraph and xtranat
+
+```{r echo = FALSE, results = 'asis', message = FALSE, warning=FALSE}
+Eig1 <- evcent(ran_graph)$vector
+Eig1n <<- (Eig1 - min(Eig1)) / (max(Eig1) - min(Eig1)) #Normalized Eigen
+
+CL1 <- closeness(ran_graph, v=V(ran_graph),
+                 normalized = FALSE)
+CL1n <<- (CL1 - min(CL1)) / (max(CL1) - min(CL1)) #Normalized Closeness
+
+ran_BET_norm <- cbet_norm(random_matrix)
+ran_RWC_norm <- rwc_norm(random_matrix)
+
+results <- as.data.frame(cbind(Eig1n,ran_RWC_norm,CL1n,ran_BET_norm))
+
+names(results)[1] <- "Eigen Cent"
+names(results)[2] <- "RWC"
+names(results)[3] <- "Closeness"
+names(results)[4] <- "CBET"
+
+library(knitr)
+library(kableExtra)
+
+names_spaced <- c('Eigenvector <br/> Centrality<br/>(igraph)', 
+                  'Random Walk<br/> Centrality<br/>(xtranat)', 
+                  'Closeness<br/> Betwenness <br/>(igraph)', 
+                  'Counting <br/> Betwenness <br/> (xtranat)'
+                ## add <br/>
+)
+
+kable(results, format='html',
+      digits=4, 
+      row.names=TRUE, 
+      booktabs = T, align = "r", linesep = "",
+      col.names = names_spaced,
+      escape = FALSE
+) %>%
+       kable_styling(bootstrap_options = c("striped"),full_width = F)
+
+```
+
+#### Closing Comments
+
+We developed these metrics in DePaolis, F., Murphy, P. & De Paolis Kaluza, M.C. "Identifying key sectors in the regional economy: a network analysis approach using input--output data," *Appl Netw Sci* 7, 86 (2022).[Link](https://doi.org/10.1007/s41109-022-00519-2). Some of the theoretical foundations are in Blöchl F, Theis FJ, Vega-Redondo F, and Fisher E. "Vertex Centrality in Input-Output Networks Reveal the Structure of Modern Economies," *Physical Review E* 83(4):046127, 2011.[Link](https://journals.aps.org/pre/abstract/10.1103/PhysRevE.83.046127)
+
+::: {style="text-align: right;" markdown="1"}
+<a href="#header">back to top</a>
+:::
