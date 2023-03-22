@@ -10,6 +10,8 @@ status](https://www.r-pkg.org/badges/version/xtranat)](https://CRAN.R-project.or
 [![R-CMD-check](https://github.com/r-lib/usethis/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/fdepaolis/xtranat/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
+# xtranat <img src="man/figures/logo.png" align="right" height="139" />
+
 The functions in the ‘xtranat’ package are based on random walks. They
 compute *Counting Betweenness* and *Random Walk Centrality*. It also
 computes the intermediate measure *Mean First Pass Time*.
