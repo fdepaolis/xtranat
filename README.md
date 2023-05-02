@@ -7,7 +7,7 @@
 
 [![CRANstatus](https://www.r-pkg.org/badges/version/xtranat)](https://CRAN.R-project.org/package=xtranat)
 [![R-CMD-check](https://github.com/r-lib/usethis/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/fdepaolis/xtranat/actions/workflows/R-CMD-check.yaml)
-[![donwloads](https://cranlogs.r-pkg.org/badges/extranat)]
+[![donwloads](https://cranlogs.r-pkg.org/donwloads/total/extranat)]
 <!-- badges: end -->
 
 # xtranat <img src="man/figures/logo.png" align="right" height="139" />
