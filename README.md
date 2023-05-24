@@ -12,7 +12,7 @@
 
 # xtranat <img src="man/figures/logo.png" align="right" height="139" />
 
-The functions in the ‘xtranat’ package are based on random walks. They
+The functions in the ‘xtranat’ package are network metrics (centrality and betweenness) based on random walks. They
 compute *Counting Betweenness* and *Random Walk Centrality*. It also
 computes the normalized values of each function.
 
