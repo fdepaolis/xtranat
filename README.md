@@ -4,9 +4,10 @@
 # xtranat
 
 <!-- badges: start -->
-
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) 
 [![CRANstatus](https://www.r-pkg.org/badges/version/xtranat)](https://CRAN.R-project.org/package=xtranat)
 [![R-CMD-check](https://github.com/r-lib/usethis/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/fdepaolis/xtranat/actions/workflows/R-CMD-check.yaml)
+[![cran checks](https://cranchecks.info/badges/xtranat)](https://cran.r-project.org/web/checks/check_results_xtranat.html)
 [![](https://cranlogs.r-pkg.org/badges/xtranat)](https://cran.rstudio.com/web/packages/xtranat/index.html)
 <!-- badges: end -->
 
